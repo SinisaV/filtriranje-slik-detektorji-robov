@@ -7,6 +7,9 @@ def canny(slika, sp_prag, zg_prag):
     return slika_robov
 
 
+def spremeni_kontrast(slika, alfa, beta):
+    return alfa * slika + beta
+
 def showImage(name, img):
     cv2.imshow(name, img)
 
@@ -17,7 +20,10 @@ if __name__ == '__main__':
     i = cv2.imread("lenna.png", 0)
     showImage("Img: ", i)
 
-    i = canny(i, 80, 20)
+    #i = canny(i, 80, 20)
+    #showImage("Img: ", i)
+
+    i = spremeni_kontrast(i, 100, 0)
     showImage("Img: ", i)
 
     cv2.waitKey()
