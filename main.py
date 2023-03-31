@@ -51,6 +51,18 @@ def my_prewitt(slika):
     return slika_robov.astype(np.uint8)
 
 
+def my_sobel(slika):
+    jedro_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+    jedro_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
+
+    convolucija_x = convolution(slika, jedro_x)
+    convolucija_y = convolution(slika, jedro_y)
+
+    slika_robov = np.sqrt(np.square(convolucija_x) + np.square(convolucija_y))
+
+    return slika_robov.astype(np.uint8)
+
+
 def canny(slika, sp_prag, zg_prag):
     slika_robov = cv2.Canny(slika, sp_prag, zg_prag)
     return slika_robov
