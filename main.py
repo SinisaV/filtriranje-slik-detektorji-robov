@@ -37,6 +37,20 @@ def convolution(slika, jedro):
 
     return output_img
 
+
+def my_prewitt(slika):
+    jedro_x = np.array([[1, 0, -1], [1, 0, -1], [1, 0, -1]])
+    jedro_y = np.array([[1, 1, 1], [0, 0, 0], [-1, -1, -1]])
+
+    convolucija_x = convolution(slika, jedro_x)
+    convolucija_y = convolution(slika, jedro_y)
+
+    slika_robov = np.sqrt(np.square(convolucija_x) + np.square(convolucija_y))
+    # direction = np.arctan2(convolucija_y, convolucija_x)
+
+    return slika_robov.astype(np.uint8)
+
+
 def canny(slika, sp_prag, zg_prag):
     slika_robov = cv2.Canny(slika, sp_prag, zg_prag)
     return slika_robov
