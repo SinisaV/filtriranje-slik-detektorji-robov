@@ -76,20 +76,54 @@ def showImage(name, img):
     cv2.imshow(name, img)
 
 
+def my_median(slika, kernel_size):
+    slika_median = cv2.medianBlur(slika, kernel_size)
+    return slika_median
+
+
+def try_blur():
+    edges_without = my_sobel(myImg)
+    # showImage("Sobel", edges_without)
+
+    smoothed = my_median(myImg, 5)
+    # showImage("Smoothed", smoothed)
+    edges_with = my_sobel(smoothed)
+
+    compare = cv2.hconcat((edges_without, edges_with))
+    showImage("Sobel edge detector with blur and without: ", compare)
+
+
+def try_contrast():
+    sob = my_sobel(myImg)
+    kontrast = spremeni_kontrast(myImg, 1, 10)
+    showImage("Beta is 10", kontrast)
+    sobl = my_sobel(kontrast)
+
+    compare = cv2.hconcat((sob, sobl))
+    showImage("Sobel detector with original photo and with lightness photo: ", compare)
+
+
 if __name__ == '__main__':
     print("Hello world!")
 
     myImg = cv2.imread("lenna.png", 0)
-    showImage("Img: ", myImg)
+    # showImage("Img: ", myImg)
 
-    #i = canny(i, 80, 20)
-    #showImage("Img: ", i)
+    #myImg = canny(myImg, 80, 20)
+    #showImage("Canny: ", myImg)
 
-    #i = spremeni_kontrast(i, 500, 0)
-    #showImage("Img: ", i)
+    #myImg = spremeni_kontrast(myImg, 500, 0)
+    #showImage("Spremenjen kontrast: ", myImg)
 
-    edges = my_prewitt(myImg)
-    showImage("Roberts", edges)
+    #edges = my_roberts(myImg)
+    #showImage("Roberts", edges)
+
+    #edges = my_prewitt(myImg)
+    #showImage("Prewitt", edges)
+
+    # try_blur()
+    try_contrast()
+
 
     cv2.waitKey()
     cv2.destroyAllWindows()
