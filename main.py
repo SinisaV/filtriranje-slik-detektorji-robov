@@ -109,8 +109,6 @@ def try_contrast():
 
 
 if __name__ == '__main__':
-    print("Hello world!")
-
     myImg = cv2.imread("lenna.png", 0)
     showImage("Img: ", myImg)
 
