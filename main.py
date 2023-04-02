@@ -69,7 +69,12 @@ def canny(slika, sp_prag, zg_prag):
 
 
 def spremeni_kontrast(slika, alfa, beta):
-    return alfa * slika + beta
+    # Apply the transformation
+    spremenjena_slika = alfa * slika + beta
+    # samo vrednosti med 0 in 255
+    spremenjena_slika = np.clip(spremenjena_slika, 0, 255).astype(np.uint8)
+
+    return spremenjena_slika
 
 
 def showImage(name, img):
@@ -94,36 +99,35 @@ def try_blur():
 
 
 def try_contrast():
-    sob = my_sobel(myImg)
-    kontrast = spremeni_kontrast(myImg, 1, 10)
-    showImage("Beta is 10", kontrast)
-    sobl = my_sobel(kontrast)
+    sob = canny(myImg, 50, 100)
+    kontrast = spremeni_kontrast(myImg, 0.2, 130)
+    showImage("Beta is 130", kontrast)
+    sobl = canny(kontrast, 50, 100)
 
     compare = cv2.hconcat((sob, sobl))
-    showImage("Sobel detector with original photo and with lightness photo: ", compare)
+    showImage("Canny detector: ", compare)
 
 
 if __name__ == '__main__':
     print("Hello world!")
 
     myImg = cv2.imread("lenna.png", 0)
-    # showImage("Img: ", myImg)
+    showImage("Img: ", myImg)
 
-    #myImg = canny(myImg, 80, 20)
-    #showImage("Canny: ", myImg)
+    # myImg = canny(myImg, 80, 20)
+    # showImage("Canny: ", myImg)
 
-    #myImg = spremeni_kontrast(myImg, 500, 0)
-    #showImage("Spremenjen kontrast: ", myImg)
+    # myImg = spremeni_kontrast(myImg, 500, 0)
+    # showImage("Spremenjen kontrast: ", myImg)
 
-    #edges = my_roberts(myImg)
-    #showImage("Roberts", edges)
+    edges = my_roberts(myImg)
+    showImage("Roberts", edges)
 
-    #edges = my_prewitt(myImg)
-    #showImage("Prewitt", edges)
+    # edges = my_prewitt(myImg)
+    # showImage("Prewitt", edges)
 
     # try_blur()
-    try_contrast()
-
+    # try_contrast()
 
     cv2.waitKey()
     cv2.destroyAllWindows()
